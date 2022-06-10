@@ -1,0 +1,31 @@
+{
+  "name": "radarfit-olimpiadas",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./src/api/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon .",
+    "dockerup": "cd docker && docker-compose down -v && docker-compose up -d",
+    "dockerdown": "cd docker && docker-compose down -v",
+    "prisma": "npx prisma migrate reset -f && node prisma/seed.js",
+    "start": "npm run dockerup && sleep 2 && npm run prisma && npm run dev"
+  },
+  "dependencies": {
+    "@prisma/client": "^3.15.1",
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "express-async-errors": "^3.1.1",
+    "joi": "^17.6.0",
+    "nodemon": "^2.0.16",
+    "prisma": "^3.15.1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.17.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0"
+  }
+}
