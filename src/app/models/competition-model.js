@@ -1,9 +1,9 @@
 const prismaClient = require('../../database/prisma-client');
 
 module.exports = {
-  async create(dataCompetition) {
+  async create(nameCompetition) {
     const competition = await prismaClient.competition.create({
-      data: { ...dataCompetition, status: 'open' },
+      data: { ...nameCompetition, status: 'open' },
     });
     return competition;
   },
