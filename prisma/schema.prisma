@@ -1,0 +1,33 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = "mysql://root:password@localhost:3306/radarFitDB?schema=public"
+}
+
+model Competition {
+  id            Int             @id @default(autoincrement())
+  name          String
+  status        String
+  athleteResult athleteResult[]
+
+
+  @@map("competition")
+}
+
+model athleteResult {
+  id              Int         @id @default(autoincrement())
+  competition     String
+  athlete         String
+  value           String
+  measure         String
+  competitionName Competition @relation(fields: [competitionId], references: [id])
+  competitionId   Int
+
+  @@map("athlete-result")
+}
