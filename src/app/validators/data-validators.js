@@ -14,6 +14,7 @@ const athleteResultSchema = Joi.object({
     'competicao de hidratacao',
     'competicao de yoga',
     'competicao de perda de peso',
+    'competicao de lançamento de dardos',
   ).required(),
   athlete: Joi.string().required(),
   value: Joi.string().required(),
