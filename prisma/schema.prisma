@@ -24,10 +24,10 @@ model athleteResult {
   id              Int         @id @default(autoincrement())
   competition     String
   athlete         String
-  value           String
+  value           Float
   measure         String
-  competitionName Competition @relation(fields: [competitionId], references: [id])
   competitionId   Int
+  competitionName Competition @relation(fields: [competitionId], references: [id])
 
   @@map("athlete-result")
 }

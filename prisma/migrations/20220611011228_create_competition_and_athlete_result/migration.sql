@@ -12,7 +12,7 @@ CREATE TABLE `athlete-result` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `competition` VARCHAR(191) NOT NULL,
     `athlete` VARCHAR(191) NOT NULL,
-    `value` VARCHAR(191) NOT NULL,
+    `value` DOUBLE NOT NULL,
     `measure` VARCHAR(191) NOT NULL,
     `competitionId` INTEGER NOT NULL,
 
