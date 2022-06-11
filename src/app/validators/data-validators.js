@@ -16,8 +16,8 @@ const athleteResultSchema = Joi.object({
     'competicao de perda de peso',
   ).required(),
   athlete: Joi.string().required(),
-  value: Joi.string.required(),
-  measure: Joi.string.required(),
+  value: Joi.string().required(),
+  measure: Joi.string().required(),
   competitionId: Joi.number().positive().required(),
 });
 
