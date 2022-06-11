@@ -4,5 +4,6 @@ const competitionController = require('../../app/controllers/competition-control
 const competitionRouter = Router();
 
 competitionRouter.post('/create', competitionController.create);
+competitionRouter.get('/:id', competitionController.findCompetition);
 
 module.exports = competitionRouter;
