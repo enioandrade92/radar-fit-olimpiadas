@@ -27,7 +27,7 @@ const athleteResultMock = [
   },
 ];
 
-describe('2.1 - Criar uma competicao de hidratacao:', () => {
+describe('1.1 - Criar uma competicao de hidratacao:', () => {
   it('- Retorna status 201 e {id, name, status: "open"}', async () => {
     const result = await request(api).post('/competition/create').send({
        name: 'competicao de hidratacao'
@@ -40,7 +40,7 @@ describe('2.1 - Criar uma competicao de hidratacao:', () => {
   });
 })
 
-describe('2.2 - Cadastrar o resultado dos atletas na competicao de hidratacao:', () => {
+describe('1.2 - Cadastrar o resultado dos atletas na competicao de hidratacao:', () => {
   it('- Retorna status 201 e {id, competition, athlete, value, measure, competitionId}', async () => {
     const result = await request(api).post('/athlete').send(
       athleteResultMock[0]
@@ -70,7 +70,7 @@ describe('2.2 - Cadastrar o resultado dos atletas na competicao de hidratacao:',
   });
 })
 
-describe('2.3 - Consultar os dados da competicao de hidratacao:', () => {
+describe('1.3 - Consultar os dados da competicao de hidratacao:', () => {
   it('- Retorna status 200 com os atletas na ordem decrescente ', async () => {
     await request(api).post('/athlete').send(athleteResultMock[2]);
     const result = await request(api).get('/competition/1')
@@ -85,7 +85,7 @@ describe('2.3 - Consultar os dados da competicao de hidratacao:', () => {
   });
 })
 
-describe('2.4 - Ao encerrar uma competição:', () => {
+describe('1.4 - Ao encerrar uma competição:', () => {
   it('- Retorna status 201 e {id, name, status: "closed"}', async () => {
     const result = await request(api).post('/competition/closed/1');
 
@@ -103,4 +103,81 @@ describe('2.4 - Ao encerrar uma competição:', () => {
     expect(result.statusCode).toEqual(400);
     expect(result.body).toMatchObject({ message: 'Competition closed' });
   });
+})
+
+describe('1.5 - Erros possíveis na competicao de hidratacao:', () => {
+  describe('- Ao tentar cadastrar uma competicao com o nome incorreto:', () => {
+    it('- Retorna status 400 e uma mensagem', async () => {
+      const result = await request(api).post('/competition/create').send({
+        name: 'competicao de volei'
+      });
+
+      expect(result.statusCode).toEqual(400);
+      expect(result.body.message).toEqual(
+        "\"name\" must be one of [competicao de hidratacao, competicao de yoga, competicao de perda de peso, competicao de lançamento de dardos]"
+      );
+    });
+  })
+
+  describe('- Ao tentar cadastrar uma competicao sem o nome:', () => {
+    it('- Retorna status 400 e uma mensagem', async () => {
+      const result = await request(api).post('/competition/create').send({});
+
+      expect(result.statusCode).toEqual(400);
+      expect(result.body.message).toEqual(
+        "\"name\" is required"
+      );
+    });
+  })
+
+  describe('- Ao tentar cadastrar uma competicao sem o nome:', () => {
+    it('- Retorna status 400 e uma mensagem', async () => {
+      const result = await request(api).post('/athlete').send({
+        competition: "competicao de yoga",
+        athlete: "Primeiro",
+        value: "10",
+        measure: "h",
+        // competitionId: 1
+      });
+
+      expect(result.statusCode).toEqual(400);
+      expect(result.body.message).toEqual(
+        "\"competitionId\" is required"
+      );
+    });
+  })
+
+  describe('Ao tentar cadastrar um resultado com o nome da competicao incorreto:', () => {
+    it('- Retorna status 400 e uma mensagem', async () => {
+      const result = await request(api).post('/athlete').send({
+        competition: "competicao de yoga",
+        athlete: "Primeiro",
+        value: "10",
+        measure: "h",
+        competitionId: 1
+      });
+
+      expect(result.statusCode).toEqual(400);
+      expect(result.body.message).toEqual(
+        "Competition name incorrect"
+      );
+    });
+  })
+
+  describe('- Ao tentar cadastrar um resultado com a "medida" incorreta:', () => {
+    it('- Retorna status 400 e uma mensagem', async () => {
+      const result = await request(api).post('/athlete').send({
+        competition: "competicao de hidratacao",
+        athlete: "Primeiro",
+        value: "10",
+        measure: "h",
+        competitionId: 1
+      });
+
+      expect(result.statusCode).toEqual(400);
+      expect(result.body.message).toEqual(
+        "\"measure\" must be one of [l, ml]"
+      );
+    });
+  })
 })

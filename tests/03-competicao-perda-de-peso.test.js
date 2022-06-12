@@ -27,7 +27,7 @@ const athleteResultMock = [
   },
 ];
 
-describe('4.1 - Criar uma competicao de perda de peso:', () => {
+describe('3.1 - Criar uma competicao de perda de peso:', () => {
   it('- Retorna status 201 e {id, name, status: "open"}', async () => {
     const result = await request(api).post('/competition/create').send({
        name: 'competicao de perda de peso'
@@ -41,7 +41,7 @@ describe('4.1 - Criar uma competicao de perda de peso:', () => {
 })
 
 
-describe('4.2 - Cadastrar o resultado dos atletas na competicao de perda de peso:', () => {
+describe('3.2 - Cadastrar o resultado dos atletas na competicao de perda de peso:', () => {
   it('- Retorna status 201 e {id, competition, athlete, value, measure, competitionId}', async () => {
     const result = await request(api).post('/athlete').send(
       athleteResultMock[0]
@@ -57,7 +57,7 @@ describe('4.2 - Cadastrar o resultado dos atletas na competicao de perda de peso
   });
 })
 
-describe('4.3 - Consultar os dados da competicao de perda de peso:', () => {
+describe('3.3 - Consultar os dados da competicao de perda de peso:', () => {
   it('- Retorna status 200 com os atletas na ordem decrescente ', async () => {
     await request(api).post('/athlete').send(athleteResultMock[1]);
     await request(api).post('/athlete').send(athleteResultMock[2]);
@@ -75,7 +75,7 @@ describe('4.3 - Consultar os dados da competicao de perda de peso:', () => {
 
 
 
-describe('4.4 - Ao encerrar uma competição:', () => {
+describe('3.4 - Ao encerrar uma competição:', () => {
   it('- Retorna status 201 e {id, name, status: "closed"}', async () => {
     const result = await request(api).post('/competition/closed/3');
 
@@ -92,5 +92,22 @@ describe('4.4 - Ao encerrar uma competição:', () => {
 
     expect(result.statusCode).toEqual(400);
     expect(result.body).toMatchObject({ message: 'Competition closed' });
+  });
+})
+
+describe('3.5 - Ao cadastrar um Resultado com as medidas incorretas:', () => {
+  it('- Retorna status 400 e uma mensagem', async () => {
+    const result = await request(api).post('/athlete').send({
+      competition: "competicao de perda de peso",
+      athlete: "Primeiro",
+      value: "10",
+      measure: "m",
+      competitionId: 3
+    });
+
+    expect(result.statusCode).toEqual(400);
+    expect(result.body.message).toEqual(
+      "\"measure\" must be [c]"
+    );
   });
 })

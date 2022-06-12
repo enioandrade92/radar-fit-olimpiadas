@@ -27,7 +27,7 @@ const athleteResultMock = [
   },
 ];
 
-describe('3.1 - Criar uma competicao de yoga:', () => {
+describe('2.1 - Criar uma competicao de yoga:', () => {
   it('- Retorna status 201 e {id, name, status: "open"}', async () => {
     const result = await request(api).post('/competition/create').send({
        name: 'competicao de yoga'
@@ -40,7 +40,7 @@ describe('3.1 - Criar uma competicao de yoga:', () => {
   });
 })
 
-describe('3.2 - Cadastrar o resultado dos atletas na competicao de yoga:', () => {
+describe('2.2 - Cadastrar o resultado dos atletas na competicao de yoga:', () => {
   it('- Retorna status 201 e {id, competition, athlete, value, measure, competitionId}', async () => {
     const result = await request(api).post('/athlete').send(
       athleteResultMock[0]
@@ -84,7 +84,7 @@ describe('3.2 - Cadastrar o resultado dos atletas na competicao de yoga:', () =>
   });
 })
 
-describe('3.3 - Consultar os dados da competicao de yoga:', () => {
+describe('2.3 - Consultar os dados da competicao de yoga:', () => {
   it('- Retorna status 200 com os atletas na ordem decrescente ', async () => {
     const result = await request(api).get('/competition/2')
 
@@ -98,7 +98,7 @@ describe('3.3 - Consultar os dados da competicao de yoga:', () => {
   });
 })
 
-describe('3.4 - Ao encerrar uma competição:', () => {
+describe('2.4 - Ao encerrar uma competição:', () => {
   it('- Retorna status 201 e {id, name, status: "closed"}', async () => {
     const result = await request(api).post('/competition/closed/2');
 
@@ -115,5 +115,22 @@ describe('3.4 - Ao encerrar uma competição:', () => {
 
     expect(result.statusCode).toEqual(400);
     expect(result.body).toMatchObject({ message: 'Competition closed' });
+  });
+})
+
+describe('2.5 - Ao cadastrar um Resultado com as medidas incorretas:', () => {
+  it('- Retorna status 400 e uma mensagem', async () => {
+    const result = await request(api).post('/athlete').send({
+      competition: "competicao de yoga",
+      athlete: "Primeiro",
+      value: "10",
+      measure: "ml",
+      competitionId: 2
+    });
+
+    expect(result.statusCode).toEqual(400);
+    expect(result.body.message).toEqual(
+      "\"measure\" must be one of [s, m, h]"
+    );
   });
 })
