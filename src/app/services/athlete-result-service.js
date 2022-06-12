@@ -2,12 +2,15 @@ const athleteResultModel = require('../models/athlete-result-model');
 const competitionModel = require('../models/competition-model');
 const errorGenerator = require('../util/error-generator');
 
-async function checkCompetitionStatus(id) {
-  const competition = await competitionModel.findById(id);
+async function checkCompetitionStatus({ competition, competitionId }) {
+  const { name, status } = await competitionModel.findById(competitionId);
   if (!competition) {
     return errorGenerator('bad_request', 'Competition not found');
   }
-  if (competition.status === 'closed') {
+  if (name !== competition) {
+    return errorGenerator('bad_request', 'Competition name incorrect');
+  }
+  if (status === 'closed') {
     return errorGenerator('bad_request', 'Competition closed');
   }
   return true;
@@ -67,7 +70,7 @@ function processDartData(data) {
 
 module.exports = {
   async create(dataAthleteResult) {
-    await checkCompetitionStatus(dataAthleteResult.competitionId);
+    await checkCompetitionStatus(dataAthleteResult);
     if (dataAthleteResult.competition === 'competicao de lançamento de dardos') {
       const processedData = processDartData(dataAthleteResult);
       delete processedData.results;
