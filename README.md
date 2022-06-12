@@ -18,9 +18,9 @@
     - Você pode acessar os passos de outras distribuições
 
 4. Rode os seguintes scripts na raiz do projeto:
-  - npm run dockerup  [Criar um container mysql]
-  - npm run prisma  [Criar ou restaurar os dados no DB]
-  - npm run dev  [Roda o nodemon]
+  - npm run dockerup - **Criar um container mysql**
+  - npm run prisma - **Criar ou restaurar os dados no DB**
+  - npm run dev - **Rodar o nodemon**
 
 5. Para testar utilize o seguinte script:
   - npm run test
