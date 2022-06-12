@@ -44,9 +44,21 @@ function checkMeasure(data) {
   }
 }
 
+function processDartData(data) {
+  const { results } = data;
+  results.sort((a, b) => +b.distance - +a.distance);
+  return { ...data, results, value: +results[0].distance };
+}
+
 module.exports = {
   async create(dataAthleteResult) {
     await checkCompetitionStatus(dataAthleteResult.competitionId);
+    if (dataAthleteResult.competition === 'competicao de lançamento de dardos') {
+      const processedData = processDartData(dataAthleteResult);
+      delete processedData.results;
+      const athleteResult = await athleteResultModel.create(processedData);
+      return athleteResult;
+    }
     const processedData = checkMeasure(dataAthleteResult);
     const athleteResult = await athleteResultModel.create(processedData);
     return athleteResult;
