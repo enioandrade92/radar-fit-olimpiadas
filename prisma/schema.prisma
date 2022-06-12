@@ -6,8 +6,8 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = "mysql://root:password@localhost:3306/radarFitDB?schema=public"
+  provider = "postgresql"
+  url      = "postgresql://root:password@localhost:5432/dbRadarFit?schema=public"
 }
 
 model Competition {

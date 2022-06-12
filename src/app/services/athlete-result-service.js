@@ -13,40 +13,55 @@ async function checkCompetitionStatus(id) {
   return true;
 }
 
-function checkMeasure(data) {
+function checkIsNaN(value) {
+  // eslint-disable-next-line no-restricted-globals
+  if (isNaN(value)) {
+    return errorGenerator('bad_request', 'Could not convert "value" to number');
+  }
+
+  return 'Isn"t nan';
+}
+
+function checkMeasure(data, convertedValue) {
+  checkIsNaN(convertedValue);
   switch (data.measure) {
     case 'ml':
       return {
         ...data,
-        value: +data.value / 1000,
+        value: convertedValue / 1000,
         measure: 'l',
       };
 
     case 's':
       return {
         ...data,
-        value: +data.value / 60,
+        value: convertedValue / 60,
         measure: 'm',
       };
 
     case 'h':
       return {
         ...data,
-        value: +data.value * 60,
+        value: convertedValue * 60,
         measure: 'm',
       };
 
     default:
       return {
         ...data,
-        value: +data.value,
+        value: convertedValue,
       };
   }
 }
 
 function processDartData(data) {
   const { results } = data;
-  results.sort((a, b) => +b.distance - +a.distance);
+  results.sort((a, b) => {
+    checkIsNaN(+b.distance);
+    checkIsNaN(+a.distance);
+    return (+b.distance - +a.distance);
+  });
+
   return { ...data, results, value: +results[0].distance };
 }
 
@@ -59,7 +74,7 @@ module.exports = {
       const athleteResult = await athleteResultModel.create(processedData);
       return athleteResult;
     }
-    const processedData = checkMeasure(dataAthleteResult);
+    const processedData = checkMeasure(dataAthleteResult, +dataAthleteResult.value);
     const athleteResult = await athleteResultModel.create(processedData);
     return athleteResult;
   },

@@ -2,12 +2,11 @@ version: '3.1'
 
 services:
   db:
-    image: mysql:5.7
-    container_name: dbmysql
-    ports:
-      - 3306:3306
+    image: postgres:14.2-alpine
+    restart: always
     environment:
-      - MYSQL_ROOT_PASSWORD=password
-      - MYSQL_DATABASE=radarFitDB
-    restart: 'always'
- 
+      POSTGRES_USER: "root"
+      POSTGRES_PASSWORD: "password"
+      POSTGRES_DB: "dbRadarFit"
+    ports:
+      - "5432:5432"
