@@ -4,12 +4,11 @@
   "description": "",
   "main": "./src/api/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npm run prisma && jest",
     "dev": "nodemon .",
     "dockerup": "cd docker && docker-compose down -v && docker-compose up -d",
     "dockerdown": "cd docker && docker-compose down -v",
-    "prisma": "npx prisma migrate reset -f",
-    "start": "npm run dockerup && sleep 2 && npm run prisma && npm run dev"
+    "prisma": "npx prisma migrate reset -f && node prisma/seed.js"
   },
   "dependencies": {
     "@prisma/client": "^3.15.1",
@@ -26,6 +25,8 @@
   "devDependencies": {
     "eslint": "^8.17.0",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.26.0"
+    "eslint-plugin-import": "^2.26.0",
+    "jest": "^28.1.1",
+    "supertest": "^6.2.3"
   }
 }
