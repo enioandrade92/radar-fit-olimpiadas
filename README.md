@@ -19,6 +19,7 @@
 
 4. Rode o seguinte script na raiz do projeto:
   - npm run start 
+  
   4.1. Caso ocorra algum problema, você pode rodar os scritps separadamente:
     - npm run dockerup - **Criar um container postgree**
     - npm run prisma - **Criar ou restaurar os dados no DB**
