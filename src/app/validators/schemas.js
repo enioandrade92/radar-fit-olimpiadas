@@ -6,7 +6,7 @@ const competitionSchema = Joi.object({
     'competicao de yoga',
     'competicao de perda de peso',
     'competicao de lançamento de dardos',
-  ),
+  ).required(),
 });
 
 const athleteResultDardoSchema = Joi.object({
