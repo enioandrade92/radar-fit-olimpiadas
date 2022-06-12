@@ -57,7 +57,7 @@ describe('4.2 - Cadastrar o resultado dos atletas na competicao de perda de peso
   });
 })
 
-describe('4.3 - Consultar os dados da competicao de hidratacao:', () => {
+describe('4.3 - Consultar os dados da competicao de perda de peso:', () => {
   it('- Retorna status 200 com os atletas na ordem decrescente ', async () => {
     await request(api).post('/athlete').send(athleteResultMock[1]);
     await request(api).post('/athlete').send(athleteResultMock[2]);
