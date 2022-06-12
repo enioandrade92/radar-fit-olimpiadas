@@ -3,6 +3,7 @@ const competitionController = require('../../app/controllers/competition-control
 
 const competitionRouter = Router();
 
+competitionRouter.post('/closed/:id', competitionController.closeCompetition);
 competitionRouter.post('/create', competitionController.create);
 competitionRouter.get('/:id', competitionController.findCompetition);
 

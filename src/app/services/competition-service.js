@@ -14,4 +14,8 @@ module.exports = {
 
     return competition;
   },
+
+  async closeCompetition(id) {
+    return competitionModel.closeCompetition(id);
+  },
 };

@@ -8,6 +8,15 @@ module.exports = {
     return competition;
   },
 
+  async closeCompetition(id) {
+    const competition = await prismaClient.competition.update({
+      where: { id },
+      data: { status: 'closed' },
+    });
+
+    return competition;
+  },
+
   async findCompetition(id) {
     const competition = await prismaClient.competition.findUnique({
       where: { id },
