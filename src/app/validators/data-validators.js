@@ -1,5 +1,12 @@
 const errorGenerator = require('../util/error-generator');
-const { competitionSchema, athleteResultSchema, getCompetitionSchema } = require('./schemas');
+const {
+  competitionSchema,
+  athleteResultDardoSchema,
+  getCompetitionSchema,
+  athleteResultHidSchema,
+  athleteResultYogaSchema,
+  athleteResultPesoSchema,
+} = require('./schemas');
 
 module.exports = {
   async competition(body) {
@@ -19,10 +26,37 @@ module.exports = {
   },
 
   async athleteResult(body) {
-    try {
-      await athleteResultSchema.validateAsync(body);
-    } catch (error) {
-      errorGenerator('bad_request', error.message);
+    switch (body.competition) {
+      case 'competicao de hidratacao':
+        try {
+          await athleteResultHidSchema.validateAsync(body);
+        } catch (error) {
+          errorGenerator('bad_request', error.message);
+        }
+        break;
+
+      case 'competicao de yoga':
+        try {
+          await athleteResultYogaSchema.validateAsync(body);
+        } catch (error) {
+          errorGenerator('bad_request', error.message);
+        }
+        break;
+
+      case 'competicao de perda de peso':
+        try {
+          await athleteResultPesoSchema.validateAsync(body);
+        } catch (error) {
+          errorGenerator('bad_request', error.message);
+        }
+        break;
+
+      default:
+        try {
+          await athleteResultDardoSchema.validateAsync(body);
+        } catch (error) {
+          errorGenerator('bad_request', error.message);
+        }
     }
   },
 };
