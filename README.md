@@ -13,9 +13,10 @@
 
 3. Faça essa verificação:
   - Neste projeto utilizaremos docker e docker-compose.
-  - Caso não tenha instalado, acesse o link abaixo e siga as instruções:
+  - Caso não tenha instalado, acesse os links abaixo e siga as instruções:
     - https://docs.docker.com/engine/install/ubuntu/
-    - Você pode acessar os passos de outras distribuições
+    - https://docs.docker.com/desktop/linux/install/
+    - Você pode acessar as instruções de outras distribuições
 
 4. Rode o seguinte script na raiz do projeto:
   - npm run start 
